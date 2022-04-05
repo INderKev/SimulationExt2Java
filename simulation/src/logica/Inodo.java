@@ -1,7 +1,11 @@
 
 package logica;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class Inodo {
@@ -19,11 +23,11 @@ public class Inodo {
    
 
     
-    public Inodo( int id, int tipo, String fecha, BloqueCarpetas bloque){
-        this.id = id;
-        this.tamano = 128;
+    public Inodo( int idInodo, int tipo, BloqueCarpetas bloque){
+        this.id = idInodo;
+        this.tamano = 0;
         this.tipo = tipo;
-        this.fechaCreacion= fecha;
+        this.fechaCreacion= obtenerFechaYHoraActual();
         //this.permisos = permisos;
         //this.propietario = propietario;
         this.apuntadorDirecto = bloque;
@@ -31,6 +35,14 @@ public class Inodo {
 
     public int getId() {
         return id;
+    }
+
+    public BloqueCarpetas getApuntadorDirecto() {
+        return apuntadorDirecto;
+    }
+
+    public BloqueApuntadoresIndirectos getApuntadorIndirecto1() {
+        return apuntadorIndirecto1;
     }
 
     public void setId(int id) {
@@ -57,10 +69,6 @@ public class Inodo {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
     public int setIdHijo(int idHijo, String nombre){   
         //revisa si ya está utilizado el primer apuntador (directo)
         if(apuntadorDirecto.getId("hijo")==-1){
@@ -71,7 +79,7 @@ public class Inodo {
         return -1;
     }
     
-    public int setHIjoIndirecto(int idBloque1, int idBloque2, String nombre, int idInodo){
+    public int setHIjoIndirecto(int idBloque1, int idBloque2, int idInodo, String nombre){
         // se revisa si ya existen apuntadores indirectos existentes
         if(this.apuntadorIndirecto1==null){
              apuntadorIndirecto1 = new BloqueApuntadoresIndirectos(idBloque1, idBloque2, nombre, idInodo);
@@ -102,6 +110,13 @@ public class Inodo {
         }
         //no queda espacio en el apuntador 
         return -1;
+    }
+    
+    private String obtenerFechaYHoraActual(){
+        Date date = Calendar.getInstance().getTime();  
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+        String strDate = dateFormat.format(date);
+        return strDate;
     }
 
 }

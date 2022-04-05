@@ -35,16 +35,16 @@ public class Modelo {
     }
     
     // Funcionalidades halladas en los requirimientos (casos de uso)
-    
+    /*
     public void iniciar(){
         getVentana().setSize(800, 800);
         getVentana().setVisible(true);
     }   
-
+    */
     // Crear un inodo
     public void crearInodo(int tipo, String nombre, int padre){
         if(this.miSistema.crearInodo(tipo, nombre, padre)==-1){
-            System.out.println("Error manejar");
+            System.out.println("Error manejar al crear el inodo");
         }
     }
     
