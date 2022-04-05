@@ -14,8 +14,8 @@ public class Inodo {
     //apuntadores directos
     private BloqueCarpetas apuntadorDirecto;
     //Apuntadores Indirectos solo pueden haber dos por cada uno
-    private ArrayList<BloqueApuntadoresIndirectos> apuntadorIndirecto1;
-    private ArrayList<Bloque> apuntadorIndirecto2;
+    private BloqueApuntadoresIndirectos apuntadorIndirecto1;
+    //private ArrayList<Bloque> apuntadorIndirecto2;
    
 
     
@@ -61,54 +61,47 @@ public class Inodo {
         this.fechaCreacion = fechaCreacion;
     }
 
-        // revisar que pasa cuando se necesitan otros id o más de los que exiten
     public int setIdHijo(int idHijo, String nombre){   
         //revisa si ya está utilizado el primer apuntador (directo)
         if(apuntadorDirecto.getId("hijo")==-1){
             apuntadorDirecto.setHijo(nombre, idHijo);
             return 0;
         } 
-        // se revisa si ya existen apuntadores existentes
-        if(this.apuntadorIndirecto1.size()==1){
-            //revisa si el primer apuntador indirecto está vacio
-            if(this.apuntadorIndirecto1.get(1).getBloqueCarpetas1()==null){
-                this.apuntadorIndirecto1.get(1).setBloqueCarpeta1(new BloqueCarpetas(idHijo, nombre, idHijo+1));
-                //cantidad de bloques nuevos
-                return 1;
-            }    
-        }
-        // revisa si ya existen apuntadores que esten libres
-        if(this.apuntadorIndirecto1.size()==2){
-            if(this.apuntadorIndirecto1.get(1).getBloqueCarpetas1()==null){
-                this.apuntadorIndirecto1.get(1).setBloqueCarpeta1(new BloqueCarpetas(idHijo, nombre, idHijo+1));
-                //cantidad de bloques nuevos
-                return 1;
-            }    
-            //revisa si el segundo apuntador indirecto está vacio
-            if(this.apuntadorIndirecto1.get(2).getBloqueCarpetas1()==null){
-                this.apuntadorIndirecto1.get(2).setBloqueCarpeta1(new BloqueCarpetas(idHijo, nombre, idHijo+1));
-                //cantidad de bloques nuevos
-                return 1;
-            }
-        }
-
-        //Revisa cuantos apuntadores están en la sección de indirectos (máx 2)
-        if(this.apuntadorIndirecto1.size()<2){
-            //crea un Bloque de apuntadores indirectos
-            BloqueApuntadoresIndirectos bloqueIndi = new BloqueApuntadoresIndirectos(idHijo);
-            //le añade al bloque anterior el bloque de carpetas que se quería crear            
-            bloqueIndi.setBloqueCarpeta1(new BloqueCarpetas(idHijo+1, idHijo, nombre));
-            //Añade el bloque de apuntadores a la lista del inodo
-            this.apuntadorIndirecto1.add(bloqueIndi);
-            //cantiad de bloque utilizados
-            return 2;
-        }
-
-        //Revisa si exite algún 
-        if(this.apuntadorIndirecto2.size()<1){
-
-        }
-
+        // Habrá que revisar los apuntadores indirectos por lo cual es necesario tener 2 ids
+        return -1;
     }
     
+    public int setHIjoIndirecto(int idBloque1, int idBloque2, String nombre, int idInodo){
+        // se revisa si ya existen apuntadores indirectos existentes
+        if(this.apuntadorIndirecto1==null){
+             apuntadorIndirecto1 = new BloqueApuntadoresIndirectos(idBloque1, idBloque2, nombre, idInodo);
+             return 0;
+        }
+        //ya está creado el apuntador indirecto
+        //revisa si el bloque de apuntadores está vacio
+        if(this.apuntadorIndirecto1.getBloqueCarpetas1()==null){
+            this.apuntadorIndirecto1.setBloqueCarpeta1(new BloqueCarpetas(idBloque1, nombre, idBloque2));
+            //cantidad de bloques nuevos
+            return 0;
+        }
+        //revisa si queda espacio en el bloque de carpetas
+        if(this.apuntadorIndirecto1.getBloqueCarpetas1().cantidadApuntadores()<3){
+            this.apuntadorIndirecto1.getBloqueCarpetas1().setHijo(nombre, idBloque1);
+            return 1;
+        }     
+        //revisa si el bloque de apuntadores directo tiene la segunda carpeta vacía para crearlo
+        if(this.apuntadorIndirecto1.getBloqueCarpetas2()==null){
+            this.apuntadorIndirecto1.setBloqueCarpeta2(new BloqueCarpetas(idBloque1, nombre, idBloque2));
+            //cantidad de bloques nuevos
+            return 0;
+        }
+        //revisa si queda espacio en el bloque de apuntadores 
+        if(this.apuntadorIndirecto1.getBloqueCarpetas2().cantidadApuntadores()<3){
+            this.apuntadorIndirecto1.getBloqueCarpetas2().setHijo(nombre, idBloque1);
+            return 1;
+        }
+        //no queda espacio en el apuntador 
+        return -1;
+    }
+
 }

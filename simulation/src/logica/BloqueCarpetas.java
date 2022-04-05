@@ -13,8 +13,8 @@ public class BloqueCarpetas extends Bloque{
         this.carpetaId.put("hijo", -1);
     }
 
-    public BloqueCarpetas(int id, String nombre, int idInodo){
-        super(id);
+    public BloqueCarpetas(int idBloqueCarpeta, String nombre, int idInodo){
+        super(idBloqueCarpeta);
         this.carpetaId = new HashMap<String,Integer>();
         this.carpetaId.put(nombre, idInodo);
     }
@@ -29,4 +29,11 @@ public class BloqueCarpetas extends Bloque{
 
     }
     
+    public void quitarHijo(String nombre){
+        this.carpetaId.remove(nombre);
+    }
+   
+    public int cantidadApuntadores(){
+        return this.carpetaId.size();
+    }
 }
