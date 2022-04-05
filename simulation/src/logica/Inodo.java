@@ -68,6 +68,10 @@ public class Inodo {
     public String getFechaCreacion() {
         return fechaCreacion;
     }
+    
+    public BloqueApuntadoresIndirectos gettHIjoIndirecto(){
+        return this.apuntadorIndirecto1;
+    }
 
     public int setIdHijo(int idHijo, String nombre){   
         //revisa si ya está utilizado el primer apuntador (directo)
@@ -111,6 +115,8 @@ public class Inodo {
         //no queda espacio en el apuntador 
         return -1;
     }
+    
+    
     
     private String obtenerFechaYHoraActual(){
         Date date = Calendar.getInstance().getTime();  

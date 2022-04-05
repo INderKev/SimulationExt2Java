@@ -1,6 +1,7 @@
 
 package logica;
 import java.util.HashMap; 
+import java.util.Iterator;
 
 public class BloqueCarpetas extends Bloque{
     private HashMap<String,Integer> carpetaId ;
@@ -23,7 +24,13 @@ public class BloqueCarpetas extends Bloque{
     }
 
     public int getId (String nombre){
-        return this.carpetaId.get(nombre);
+        for (Iterator<String> it = this.carpetaId.keySet().iterator(); it.hasNext();) {
+            String val = it.next();
+            if(this.carpetaId.get(val)==-1){
+                return -1;
+            }
+        }
+        return 0;
     }
 
     public HashMap<String, Integer> getCarpetaId() {

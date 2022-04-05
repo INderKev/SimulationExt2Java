@@ -37,11 +37,12 @@ public class SistemaArchivos {
             System.out.println("No hay más espacio en los mapas de bits o no se encontro el padre");
             return -1;
         }           
-  
+
         // se pone en el bloque del padre el id del hijo
         if( this.inodos.size()!=0){
-            
+            System.out.println("entro set hijo ");
             if(this.inodos.get(indexPadre).setIdHijo(idInodoActual, nombre)==-1){
+                
                 //es necesario otro apuntador 
                 idBloqueAux = asignarBitmapBloques();
                 //el apuntador directo está ocupado por lo cual se utilizará un apuntador indirecto
@@ -66,7 +67,7 @@ public class SistemaArchivos {
                         return 0;               
                 }
             }else{
-                System.out.println("entro");
+                
                 //se agrego al apuntador directo
                 bloque = new BloqueCarpetas(idBloque, idInodoActual, idPadre);
                 // se añade el inodo a la lista de inodos
@@ -145,6 +146,22 @@ public class SistemaArchivos {
             for (Iterator<String> it = aux.keySet().iterator(); it.hasNext();) {
                 String val = it.next();
                 System.out.println("llave: "+val + " valor: "+ aux.get(val));
+            }
+            
+            //tiene apuntadores indirectos
+            if(this.inodos.get(i).getApuntadorIndirecto1()!=null){
+                System.out.println("Apuntador indirecto");
+                BloqueApuntadoresIndirectos bloqueIndirecto = this.inodos.get(i).getApuntadorIndirecto1();
+                System.out.println("Id bloque: "+ bloqueIndirecto.getId()+"\n");
+                if(bloqueIndirecto.getBloqueCarpetas1()!=null){
+                    System.out.println("Id bloque" + bloqueIndirecto.getBloqueCarpetas1().getId());
+                    HashMap<String,Integer> bloques2 = bloqueIndirecto.getBloqueCarpetas1().getCarpetaId();
+                    System.out.println("Apuntador indirecto");
+                    for (Iterator<String> it = bloques2.keySet().iterator(); it.hasNext();) {
+                        String val = it.next();
+                        System.out.println("llave: "+val + " valor: "+ bloques2.get(val));
+                    }
+                }
             }
         }
     }
