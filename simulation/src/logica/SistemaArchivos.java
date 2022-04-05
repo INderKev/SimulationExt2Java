@@ -19,7 +19,7 @@ public class SistemaArchivos {
 
     public SistemaArchivos(){
         this.bitmapInodos = new int [100];
-	this.bitmapBloques = new int [100];
+	    this.bitmapBloques = new int [100];
         this.inodos = new ArrayList<Inodo>();
     }
     

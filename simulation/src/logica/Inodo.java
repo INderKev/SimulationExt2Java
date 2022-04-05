@@ -1,9 +1,10 @@
 
 package logica;
 
+import java.util.ArrayList;
+
 
 public class Inodo {
-    private String nombre;
     private int id;
     private int tamano ;//KB
     private int tipo ;// 1 carpeta
@@ -11,34 +12,21 @@ public class Inodo {
     //private String permisos;
     private String fechaCreacion;
     //apuntadores directos
-    private Bloque apuntadorDirecto;
-    //Apuntadores Indirectos
-    private Bloque apuntadorIndirecto1;
-    private Bloque apuntadorIndirecto2;
-    private Bloque apuntadorIndirecto3;
+    private BloqueCarpetas apuntadorDirecto;
+    //Apuntadores Indirectos solo pueden haber dos por cada uno
+    private ArrayList<BloqueApuntadoresIndirectos> apuntadorIndirecto1;
+    private ArrayList<Bloque> apuntadorIndirecto2;
+   
 
     
-    public Inodo(String nombre, int id, int tipo, String fecha, Bloque bloque){
+    public Inodo( int id, int tipo, String fecha, BloqueCarpetas bloque){
         this.id = id;
-	this.tamano = 128;
-	this.tipo = tipo;
-	this.fechaCreacion= fecha;
-	//this.permisos = permisos;
-    //this.propietario = propietario;
-	this.apuntadorDirecto = bloque;
-    }
-    
-    //administra los apuntadores del inodo
-    public void settearBloque(Bloque bloque){
-        this.apuntadorIndirecto1 = bloque;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.tamano = 128;
+        this.tipo = tipo;
+        this.fechaCreacion= fecha;
+        //this.permisos = permisos;
+        //this.propietario = propietario;
+        this.apuntadorDirecto = bloque;
     }
 
     public int getId() {
@@ -73,15 +61,54 @@ public class Inodo {
         this.fechaCreacion = fechaCreacion;
     }
 
-
-    public int setIdHijo(int idHijo){   
+        // revisar que pasa cuando se necesitan otros id o más de los que exiten
+    public int setIdHijo(int idHijo, String nombre){   
         //revisa si ya está utilizado el primer apuntador (directo)
-        if(apuntadorDirecto.getIdHijo()==-1){
-            apuntadorDirecto.setIdHijo(idHijo);
+        if(apuntadorDirecto.getId("hijo")==-1){
+            apuntadorDirecto.setHijo(nombre, idHijo);
             return 0;
-        }else{
-            apuntadorIndirecto1
+        } 
+        // se revisa si ya existen apuntadores existentes
+        if(this.apuntadorIndirecto1.size()==1){
+            //revisa si el primer apuntador indirecto está vacio
+            if(this.apuntadorIndirecto1.get(1).getBloqueCarpetas1()==null){
+                this.apuntadorIndirecto1.get(1).setBloqueCarpeta1(new BloqueCarpetas(idHijo, nombre, idHijo+1));
+                //cantidad de bloques nuevos
+                return 1;
+            }    
         }
+        // revisa si ya existen apuntadores que esten libres
+        if(this.apuntadorIndirecto1.size()==2){
+            if(this.apuntadorIndirecto1.get(1).getBloqueCarpetas1()==null){
+                this.apuntadorIndirecto1.get(1).setBloqueCarpeta1(new BloqueCarpetas(idHijo, nombre, idHijo+1));
+                //cantidad de bloques nuevos
+                return 1;
+            }    
+            //revisa si el segundo apuntador indirecto está vacio
+            if(this.apuntadorIndirecto1.get(2).getBloqueCarpetas1()==null){
+                this.apuntadorIndirecto1.get(2).setBloqueCarpeta1(new BloqueCarpetas(idHijo, nombre, idHijo+1));
+                //cantidad de bloques nuevos
+                return 1;
+            }
+        }
+
+        //Revisa cuantos apuntadores están en la sección de indirectos (máx 2)
+        if(this.apuntadorIndirecto1.size()<2){
+            //crea un Bloque de apuntadores indirectos
+            BloqueApuntadoresIndirectos bloqueIndi = new BloqueApuntadoresIndirectos(idHijo);
+            //le añade al bloque anterior el bloque de carpetas que se quería crear            
+            bloqueIndi.setBloqueCarpeta1(new BloqueCarpetas(idHijo+1, idHijo, nombre));
+            //Añade el bloque de apuntadores a la lista del inodo
+            this.apuntadorIndirecto1.add(bloqueIndi);
+            //cantiad de bloque utilizados
+            return 2;
+        }
+
+        //Revisa si exite algún 
+        if(this.apuntadorIndirecto2.size()<1){
+
+        }
+
     }
     
 }
