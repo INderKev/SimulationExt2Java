@@ -23,7 +23,7 @@ public class BloqueCarpetas extends Bloque{
         this.carpetaId.put(nombre, idInodo);
     }
 
-    public int getId (String nombre){
+    public int getIdHijo (String nombre){
         for (Iterator<String> it = this.carpetaId.keySet().iterator(); it.hasNext();) {
             String val = it.next();
             if(this.carpetaId.get(val)==-1){
