@@ -1,15 +1,8 @@
 
 package presentacion;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Component;
-import java.awt.Container;
-import javax.swing.JComboBox;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import presentacion.widgets.WCoordenadaPunto;
+
+
 
 
 public class Vista extends javax.swing.JFrame {
@@ -20,8 +13,8 @@ public class Vista extends javax.swing.JFrame {
     public Vista(Modelo m) {
         modelo = m;
         initComponents();
-        componentesPersonales();
-        asignacionEventos();
+       
+        //asignacionEventos();
     }
 
     /**
@@ -286,7 +279,7 @@ public class Vista extends javax.swing.JFrame {
     public Modelo getModelo() {
         return modelo;
     }
-
+    /*
     public JMenuItem getMniCrear() {
         return mniCrear;
     }
@@ -307,29 +300,8 @@ public class Vista extends javax.swing.JFrame {
         return txtArea;
     }
 
-    public JTextField getTxtDistanciaAB() {
-        return txtDistanciaAB;
-    }
-
-    public JTextField getTxtDistanciaAC() {
-        return txtDistanciaAC;
-    }
-
-    public JTextField getTxtDistanciaBC() {
-        return txtDistanciaBC;
-    }
-
-    public JTextField getTxtPerimetro() {
-        return txtperimetro;
-    }
-
-    public WCoordenadaPunto[] getWPuntoCoord() {
-        return puntoCoord;
-    }
-
-    public JPanel getPnlPuntos() {
-        return pnlPuntos;
-    }
+  
+    */
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -362,66 +334,21 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JTextField txtperimetro;
     // End of variables declaration//GEN-END:variables
 
-    private WCoordenadaPunto puntoCoord[];
-    
-    private void componentesPersonales() {
-        puntoCoord = new WCoordenadaPunto[3];
-        for (int i = 0; i < 3; i++) {
-            puntoCoord[i] = new WCoordenadaPunto();
-            puntoCoord[i].setName(""+i);
-        }
-        
-        pnlPuntoA.add(puntoCoord[0], BorderLayout.CENTER);
-        pnlPuntoB.add(puntoCoord[1], BorderLayout.CENTER);
-        pnlPuntoC.add(puntoCoord[2], BorderLayout.CENTER);
-        
-    }
-
+/*
     private void asignacionEventos() {
         mniCrear.addActionListener(getControl());
         mniEliminar.addActionListener(getControl());
         mniSalir.addActionListener(getControl());
-        cmbListaTriangulos.addItemListener(getControl());
+        //cmbListaTriangulos.addItemListener(getControl());
         for (int i = 0; i < 3; i++) {
             puntoCoord[i].getSliX().addChangeListener(getControl());
             puntoCoord[i].getSliY().addChangeListener(getControl());
         }
     }
+*/
     
-    public void activarComponentes(Container c, boolean enable) {
-        Component[] componentes = c.getComponents();
-        for (Component componente : componentes) {
-            componente.setEnabled(enable);
-            if (componente instanceof Container) {
-                activarComponentes((Container)componente, enable);
-            }
-        }
-    } 
+   
     
-    public void reset(boolean estado){
-        getMniEliminar().setEnabled(!estado);
-        activarComponentes(getPnlPuntos(), !estado);
-        
-        if(estado){
-            Component[] componentesDatos = pnlDatos.getComponents();
-            for (Component c : componentesDatos) {            
-                if (c instanceof JTextField) {
-                    ((JTextField) c).setText("");
-                }
-            }
-            Component[] componentesPuntos = pnlPuntos.getComponents();
-            for (Component c : componentesPuntos) {            
-                if (c instanceof JPanel) {
-                    JPanel pnlCoord = (JPanel)c;
-                    Component[] componentesCoordenada = pnlCoord.getComponents();
-                    for (Component coor : componentesCoordenada) {
-                        if (coor instanceof WCoordenadaPunto) {
-                            ((WCoordenadaPunto) coor).getSliX().setValue(0);
-                            ((WCoordenadaPunto) coor).getSliY().setValue(0);
-                        }
-                    }
-                }
-            }
-        }
-    }
+   
+   
 }
